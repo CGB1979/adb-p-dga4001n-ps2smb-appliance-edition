@@ -1,0 +1,78 @@
+name: Compilar OpenWrt
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+
+    steps:
+
+      - name: Clonar repositorio
+        uses: actions/checkout@v4
+
+      - name: Clonar OpenWrt 22.03.7
+        run: |
+          git clone --branch v22.03.7 --depth 1 https://github.com/openwrt/openwrt.git
+
+      - name: Instalar dependencias
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            build-essential clang flex g++ gawk gcc-multilib gettext \
+            git libncurses5-dev libssl-dev python3-distutils rsync \
+            unzip zlib1g-dev file wget curl binutils
+
+      - name: Actualizar feeds
+        run: |
+          cd openwrt
+          ./scripts/feeds update packages luci routing telephony || true
+          ./scripts/feeds install -a
+
+      - name: Copiar .config
+        run: |
+          cp "$GITHUB_WORKSPACE/.config" openwrt/.config
+
+      - name: Copiar archivos personalizados
+        run: |
+          cp -a "$GITHUB_WORKSPACE/files/." openwrt/files/
+          
+      - name: Ajustar permisos Samba
+        run: |
+          chmod +x openwrt/files/etc/init.d/samba || true
+          chmod +x openwrt/files/usr/sbin/* || true
+
+      - name: Preparar configuración
+        run: |
+          cd openwrt
+          make defconfig
+
+      - name: Compilar
+        run: |
+          cd openwrt
+          make -j$(nproc)
+
+      - name: Verificar Samba integrado
+        run: |
+          echo "Contenido Samba en files:"
+          find openwrt/files -iname "*smb*" -o -iname "*samba*" || true
+
+          echo "Buscando en firmware generado:"
+          find openwrt/bin -iname "*smb*" -o -iname "*samba*" || true
+          
+      - name: Copiar .config final
+        run: |
+          cp openwrt/.config "$GITHUB_WORKSPACE/config-final"
+
+      - name: Subir firmware
+        uses: actions/upload-artifact@v4
+        with:
+          name: firmware
+          path: openwrt/bin/targets/**
+
+      - name: Subir .config generada
+        uses: actions/upload-artifact@v4
+        with:
+          name: openwrt-config
+          path: config-final
