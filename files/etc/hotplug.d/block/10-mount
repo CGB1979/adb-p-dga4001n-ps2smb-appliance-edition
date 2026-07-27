@@ -1,0 +1,10 @@
+#!/bin/sh
+
+[ "$ACTION" = "add" ] || exit 0
+
+case "$DEVNAME" in
+        sd[a-z][0-9])
+                mkdir -p /mnt/usb
+                mount /dev/$DEVNAME /mnt/usb
+                ;;
+esac

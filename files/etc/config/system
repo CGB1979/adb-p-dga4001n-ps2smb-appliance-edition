@@ -1,0 +1,4 @@
+config system
+	option hostname 'PS2SMB'
+	option ttylogin '0'
+	option urandom_seed '0'

@@ -1,0 +1,16 @@
+
+config samba
+	option name 'PS2SMB'
+	option workgroup 'WORKGROUP'
+	option description 'PS2 SMB Appliance Edition'
+	option homes '0'
+	option max_protocol 'NT1'
+
+config sambashare
+	option name 'PS2SMB'
+	option path '/mnt/usb'
+	option read_only 'no'
+	option guest_ok 'yes'
+	option create_mask '0777'
+	option dir_mask '0777'
+
