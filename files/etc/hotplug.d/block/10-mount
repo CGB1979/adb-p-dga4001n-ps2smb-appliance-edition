@@ -1,10 +1,21 @@
 #!/bin/sh
 
-[ "$ACTION" = "add" ] || exit 0
+case "$ACTION" in
+        add)
+                case "$DEVNAME" in
+                        sd[a-z][0-9])
+                                mkdir -p /mnt/usb
+                                mount /dev/$DEVNAME /mnt/usb
+                                echo 255 > /sys/class/leds/red:wifi/brightness
+                                ;;
+                esac
+                ;;
 
-case "$DEVNAME" in
-        sd[a-z][0-9])
-                mkdir -p /mnt/usb
-                mount /dev/$DEVNAME /mnt/usb
+        remove)
+                case "$DEVNAME" in
+                        sd[a-z][0-9])
+                                echo 0 > /sys/class/leds/red:wifi/brightness
+                                ;;
+                esac
                 ;;
 esac
