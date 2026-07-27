@@ -1,0 +1,10 @@
+#!/bin/sh
+
+umount /mnt/usb
+RESULT=$?
+
+if [ "$RESULT" -eq 0 ]; then
+    echo 0 > /sys/class/leds/red:wifi/brightness
+fi
+
+exit $RESULT
