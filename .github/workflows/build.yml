@@ -43,6 +43,10 @@ jobs:
           chmod +x openwrt/files/etc/init.d/samba || true
           chmod +x openwrt/files/usr/sbin/* || true
 
+      - name: Ajustar permisos desmontar
+        run: |
+          chmod 755 openwrt/files/usr/bin/desmontar || true
+
       - name: Preparar configuración
         run: |
           cd openwrt
