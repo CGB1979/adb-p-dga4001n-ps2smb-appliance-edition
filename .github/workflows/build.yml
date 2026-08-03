@@ -37,7 +37,7 @@ jobs:
       - name: Copiar archivos personalizados
         run: |
           cp -a "$GITHUB_WORKSPACE/files/." openwrt/files/
-          
+
       - name: Ajustar permisos Samba
         run: |
           chmod +x openwrt/files/etc/init.d/samba || true
@@ -46,6 +46,7 @@ jobs:
       - name: Ajustar permisos desmontar
         run: |
           chmod 755 openwrt/files/usr/bin/desmontar || true
+          chmod 755 openwrt/files/etc/rc.button/wps || true
 
       - name: Preparar configuración
         run: |
@@ -64,7 +65,7 @@ jobs:
 
           echo "Buscando en firmware generado:"
           find openwrt/bin -iname "*smb*" -o -iname "*samba*" || true
-          
+
       - name: Copiar .config final
         run: |
           cp openwrt/.config "$GITHUB_WORKSPACE/config-final"
