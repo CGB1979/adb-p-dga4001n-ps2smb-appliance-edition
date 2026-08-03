@@ -1,9 +1,14 @@
 #!/bin/sh
 
+sync
+
 umount /mnt/usb
 RESULT=$?
 
 if [ "$RESULT" -eq 0 ]; then
+    echo timer > /sys/class/leds/red:wifi/trigger
+    sleep 5
+    echo none > /sys/class/leds/red:wifi/trigger
     echo 0 > /sys/class/leds/red:wifi/brightness
 fi
 
