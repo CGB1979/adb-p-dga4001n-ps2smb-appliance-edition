@@ -1,0 +1,5 @@
+#!/bin/sh
+
+[ "$SUBSYSTEM" = "button" ] || exit 0
+
+BUTTON="$BUTTON" ACTION="$ACTION" /etc/rc.button/$BUTTON
