@@ -7,7 +7,6 @@ USE_PROCD=1
 smb_header() {
 	config_get samba_iface $1 interface "loopback lan"
 
-	# resolve interfaces
 	local interfaces=$(
 		. /lib/functions/network.sh
 
@@ -29,6 +28,7 @@ smb_header() {
 	config_get charset     $1 charset     "UTF-8"
 
 	mkdir -p /var/etc
+
 	sed -e "s#|NAME|#$name#g" \
 	    -e "s#|WORKGROUP|#$workgroup#g" \
 	    -e "s#|DESCRIPTION|#$description#g" \
@@ -38,7 +38,8 @@ smb_header() {
 
 	local homes
 	config_get_bool homes $1 homes 0
-	[ $homes -gt 0 ] && {
+
+	[ "$homes" -gt 0 ] && {
 		cat <<EOT >> /var/etc/smb.conf
 
 [homes]
@@ -78,14 +79,41 @@ smb_add_share() {
 	[ -n "$read_only" ] && echo -e "\tread only = $read_only" >> /var/etc/smb.conf
 	[ -n "$guest_ok" ] && echo -e "\tguest ok = $guest_ok" >> /var/etc/smb.conf
 	[ -n "$create_mask" ] && echo -e "\tcreate mask = $create_mask" >> /var/etc/smb.conf
-	[ -n "$dir_mask" ] && echo -e "\tdirectory mask = $dir_mask" >> /var/etc/smb.conf
+	[ -n "$dir_mask" ] && echo -e "\t directory mask = $dir_mask" >> /var/etc/smb.conf
 	[ -n "$browseable" ] && echo -e "\tbrowseable = $browseable" >> /var/etc/smb.conf
+}
+
+add_dynamic_shares() {
+	local n=1
+
+	while [ $n -le 10 ]; do
+		MP="/mnt/usb$n"
+
+		mount | grep -q " $MP " || {
+			n=$((n+1))
+			continue
+		}
+
+		cat <<EOT >> /var/etc/smb.conf
+
+[PS2SMB$n]
+	path = $MP
+	read only = no
+	guest ok = yes
+	create mask = 0777
+	directory mask = 0777
+	browseable = yes
+EOT
+
+		n=$((n+1))
+	done
 }
 
 init_config() {
 	config_load samba
 	config_foreach smb_header samba
 	config_foreach smb_add_share sambashare
+	add_dynamic_shares
 }
 
 service_triggers() {
