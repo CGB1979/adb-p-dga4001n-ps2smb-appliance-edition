@@ -21,6 +21,9 @@ add)
 
                         mount /dev/$DEVNAME "$MOUNTPOINT"
 
+                        # Regenerar recursos Samba al conectar particiones nuevas
+                        /etc/init.d/samba restart
+
                         if [ "$PART" -eq 1 ]; then
                                 echo 255 > "$LED"
                         fi
