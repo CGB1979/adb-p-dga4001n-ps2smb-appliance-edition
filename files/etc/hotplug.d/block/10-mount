@@ -1,21 +1,44 @@
 #!/bin/sh
 
-case "$ACTION" in
-        add)
-                case "$DEVNAME" in
-                        sd[a-z][0-9])
-                                mkdir -p /mnt/usb
-                                mount /dev/$DEVNAME /mnt/usb
-                                echo 255 > /sys/class/leds/red:wifi/brightness
-                                ;;
-                esac
-                ;;
+LED="/sys/class/leds/red:wifi/brightness"
 
-        remove)
-                case "$DEVNAME" in
-                        sd[a-z][0-9])
-                                echo 0 > /sys/class/leds/red:wifi/brightness
-                                ;;
-                esac
-                ;;
+case "$ACTION" in
+
+add)
+        case "$DEVNAME" in
+                sd[a-z][0-9])
+
+                        PART=$(echo "$DEVNAME" | sed 's/[^0-9]//g')
+
+                        if [ "$PART" -eq 1 ]; then
+                                MOUNTPOINT="/mnt/usb"
+                        else
+                                NUM=$((PART-1))
+                                MOUNTPOINT="/mnt/usb$NUM"
+                        fi
+
+                        mkdir -p "$MOUNTPOINT"
+
+                        mount /dev/$DEVNAME "$MOUNTPOINT"
+
+                        if [ "$PART" -eq 1 ]; then
+                                echo 255 > "$LED"
+                        fi
+
+                        ;;
+        esac
+        ;;
+
+remove)
+        case "$DEVNAME" in
+                sd[a-z][0-9])
+
+                        if ! mount | grep -q "/mnt/usb"; then
+                                echo 0 > "$LED"
+                        fi
+
+                        ;;
+        esac
+        ;;
+
 esac
