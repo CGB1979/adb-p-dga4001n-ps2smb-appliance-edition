@@ -2,8 +2,24 @@
 
 sync
 
-umount /mnt/usb
-RESULT=$?
+# Detener Samba para liberar los puntos de montaje
+/etc/init.d/samba stop
+
+sleep 1
+
+# Desmontar todas las particiones USB
+for MP in /mnt/usb /mnt/usb[0-9]*; do
+    if mount | grep -q " $MP "; then
+        umount "$MP"
+    fi
+done
+
+RESULT=0
+
+# Verificar que no quede ningún montaje USB
+if mount | grep -q "/mnt/usb"; then
+    RESULT=1
+fi
 
 if [ "$RESULT" -eq 0 ]; then
     echo timer > /sys/class/leds/red:wifi/trigger
@@ -11,5 +27,8 @@ if [ "$RESULT" -eq 0 ]; then
     echo none > /sys/class/leds/red:wifi/trigger
     echo 0 > /sys/class/leds/red:wifi/brightness
 fi
+
+# Volver a iniciar Samba
+/etc/init.d/samba start
 
 exit $RESULT
