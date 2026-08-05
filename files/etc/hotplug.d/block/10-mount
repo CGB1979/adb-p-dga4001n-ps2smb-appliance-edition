@@ -19,7 +19,7 @@ add)
 
                         mkdir -p "$MOUNTPOINT"
 
-                        mount /dev/$DEVNAME "$MOUNTPOINT"
+                        mount -o rw,uid=0,gid=0,fmask=0000,dmask=0000 /dev/$DEVNAME "$MOUNTPOINT"
 
                         # Regenerar recursos Samba al conectar particiones nuevas
                         /etc/init.d/samba restart
