@@ -78,15 +78,15 @@
             }, 400);
         });
 
-        // Tus 7 microesferas calibradas
+                // Tus 7 microesferas calibradas con el DOBLE de retraso (valores baseEase reducidos a la mitad)
         const orbs = [
-            { id: 1, x: mouse.x, y: mouse.y, radius: 6, color: 'rgba(0, 180, 255,', baseEase: 0.12, angle: 0, orbitSpeed: 0.02, orbitRadius: 35, pulseOffset: 0 },
-            { id: 2, x: mouse.x, y: mouse.y, radius: 5, color: 'rgba(0, 255, 200,', baseEase: 0.09, angle: 1.5, orbitSpeed: -0.025, orbitRadius: 55, pulseOffset: 1 },
-            { id: 3, x: mouse.x, y: mouse.y, radius: 5, color: 'rgba(150, 0, 255,', baseEase: 0.07, angle: 3, orbitSpeed: 0.015, orbitRadius: 75, pulseOffset: 2 },
-            { id: 4, x: mouse.x, y: mouse.y, radius: 4, color: 'rgba(255, 255, 255,', baseEase: 0.05, angle: 4.5, orbitSpeed: -0.018, orbitRadius: 95, pulseOffset: 3 },
-            { id: 5, x: mouse.x, y: mouse.y, radius: 4, color: 'rgba(0, 120, 255,', baseEase: 0.04, angle: 2, orbitSpeed: 0.022, orbitRadius: 115, pulseOffset: 4 },
-            { id: 6, x: mouse.x, y: mouse.y, radius: 3, color: 'rgba(255, 0, 150,', baseEase: 0.03, angle: 5.5, orbitSpeed: -0.012, orbitRadius: 130, pulseOffset: 5 },
-            { id: 7, x: mouse.x, y: mouse.y, radius: 3, color: 'rgba(0, 255, 100,', baseEase: 0.02, angle: 0.5, orbitSpeed: 0.017, orbitRadius: 150, pulseOffset: 6 }
+            { id: 1, x: mouse.x, y: mouse.y, radius: 6, color: 'rgba(0, 180, 255,', baseEase: 0.06, angle: 0, orbitSpeed: 0.02, orbitRadius: 35, pulseOffset: 0 },
+            { id: 2, x: mouse.x, y: mouse.y, radius: 5, color: 'rgba(0, 255, 200,', baseEase: 0.045, angle: 1.5, orbitSpeed: -0.025, orbitRadius: 55, pulseOffset: 1 },
+            { id: 3, x: mouse.x, y: mouse.y, radius: 5, color: 'rgba(150, 0, 255,', baseEase: 0.035, angle: 3, orbitSpeed: 0.015, orbitRadius: 75, pulseOffset: 2 },
+            { id: 4, x: mouse.x, y: mouse.y, radius: 4, color: 'rgba(255, 255, 255,', baseEase: 0.025, angle: 4.5, orbitSpeed: -0.018, orbitRadius: 95, pulseOffset: 3 },
+            { id: 5, x: mouse.x, y: mouse.y, radius: 4, color: 'rgba(0, 120, 255,', baseEase: 0.02, angle: 2, orbitSpeed: 0.022, orbitRadius: 115, pulseOffset: 4 },
+            { id: 6, x: mouse.x, y: mouse.y, radius: 3, color: 'rgba(255, 0, 150,', baseEase: 0.015, angle: 5.5, orbitSpeed: -0.012, orbitRadius: 130, pulseOffset: 5 },
+            { id: 7, x: mouse.x, y: mouse.y, radius: 3, color: 'rgba(0, 255, 100,', baseEase: 0.01, angle: 0.5, orbitSpeed: 0.017, orbitRadius: 150, pulseOffset: 6 }
         ];
 
         let globalTime = 0;
