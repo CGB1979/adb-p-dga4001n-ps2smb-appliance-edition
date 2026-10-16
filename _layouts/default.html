@@ -4,13 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ page.title | default: site.title }}</title>
+    <!-- Cargamos los estilos por defecto que ya usa GitHub para tu documentación -->
     <link rel="stylesheet" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
     <style>
+        /* Fondo negro puro de PlayStation 2 */
         body {
             background-color: #000000 !important;
             color: #ffffff !important;
             margin: 0;
         }
+        /* Faint CRT scanline overlay (Efecto de líneas de TV vieja como POPSLoader) */
         body::after {
             content: "";
             position: fixed;
@@ -20,6 +23,7 @@
             opacity: 0.08;
             background: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.15) 0 1px, transparent 1px 3px);
         }
+        /* Contenedor transparente para que resalten las esferas de fondo */
         .container-lg {
             background: rgba(12, 12, 12, 0.85) !important;
             border: 1px solid rgba(255, 255, 255, 0.1) !important;
@@ -28,9 +32,10 @@
             margin-top: 40px !important;
             margin-bottom: 40px !important;
             position: relative;
-            z-index: 2;
+            z-index: 2; /* Por encima de las órbitas */
             box-shadow: 0 10px 40px rgba(0,0,0,0.95);
         }
+        /* Ajuste de colores de la documentación estilo PS2 */
         h1, h2, h3 { color: #38bdf8 !important; border-bottom: 1px solid rgba(145, 190, 255, 0.15) !important; }
         a { color: #7dd3fc !important; text-decoration: none; }
         a:hover { color: #ffffff !important; text-shadow: 0 0 8px rgba(125, 211, 252, 0.5) !important; }
@@ -39,6 +44,7 @@
         .markdown-body table tr { background-color: #0c1630 !important; }
         .markdown-body table tr:nth-child(even) { background-color: #142245 !important; }
 
+        /* El Canvas interactivo ocupando el fondo completo */
         canvas {
             position: fixed;
             top: 0;
@@ -50,8 +56,10 @@
 </head>
 <body>
 
+    <!-- El lienzo de las 7 esferas auténticas de la consola -->
     <canvas id="ps2Canvas"></canvas>
 
+    <!-- Inyección automática del contenido de tu README.md -->
     <div class="container-lg px-3 my-5 markdown-body">
         {{ content }}
     </div>
@@ -103,10 +111,9 @@
             globalTime += 0.02;
 
             // --- ROTACIÓN DINÁMICA DE TAMAÑOS ---
-            // Cada esfera toma un tamaño único que varía suavemente según el tiempo global desincronizado
             orbs.forEach((orb, i) => {
                 const sizePulse = Math.sin(globalTime * 0.8 + i * 1.5);
-                orb.radius = orb.baseRadius * (1.1 + sizePulse * 0.5); // Cambia dinámicamente quién es más grande
+                orb.radius = orb.baseRadius * (1.1 + sizePulse * 0.5);
             });
 
             // Ordenamiento por cercanía al mouse en seguimiento
@@ -136,17 +143,14 @@
 
                     switch (orb.type) {
                         case 'triangle':
-                            // PARTE SUPERIOR: Dibuja un triángulo con trayectorias aceleradas
                             const triCenterX = mouse.x;
                             const triCenterY = mouse.y - 70;
-                            // Ecuación matemática para aproximar un triángulo fluido
-                            const triAngle = orb.angle * 1.5; // Movimiento más acelerado
+                            const triAngle = orb.angle * 1.5;
                             targetX = triCenterX + size * (Math.sin(triAngle) - 0.2 * Math.sin(2 * triAngle));
                             targetY = triCenterY + size * (Math.cos(triAngle) + 0.3 * Math.cos(2 * triAngle)) * -1;
                             break;
 
                         case 'circle':
-                            // LADO DERECHO: Giro circular perfecto
                             const cirCenterX = mouse.x + 70;
                             const cirCenterY = mouse.y;
                             targetX = cirCenterX + Math.cos(orb.angle) * (size * 0.9);
@@ -154,7 +158,6 @@
                             break;
 
                         case 'square':
-                            // LADO IZQUIERDO: Forma un cuadrado usando distorsión de Fourier sutil para esquinas duras
                             const sqCenterX = mouse.x - 70;
                             const sqCenterY = mouse.y;
                             targetX = sqCenterX + size * (Math.cos(orb.angle) - 0.08 * Math.cos(3 * orb.angle));
@@ -162,7 +165,6 @@
                             break;
 
                         case 'cross1':
-                            // PARTE INFERIOR: Diagonal / del cruce de la X
                             const crossCenterX = mouse.x;
                             const crossCenterY = mouse.y + 70;
                             const linearOsc1 = Math.sin(orb.angle) * size;
@@ -171,7 +173,6 @@
                             break;
 
                         case 'cross2':
-                            // PARTE INFERIOR: Diagonal \ del cruce de la X (Sentido opuesto)
                             const crossCenterX2 = mouse.x;
                             const crossCenterY2 = mouse.y + 70;
                             const linearOsc2 = Math.sin(orb.angle) * size;
@@ -181,8 +182,7 @@
 
                         case 'outer1':
                         case 'outer2':
-                            // ANILLO PERIFÉRICO: Esferas Blanca y Cyan encerrando el show
-                            orb.angle += 0.01; // Giro exterior más pausado y majestuoso
+                            orb.angle += 0.01;
                             const outerRadius = 140;
                             targetX = mouse.x + Math.cos(orb.angle) * outerRadius;
                             targetY = mouse.y + Math.sin(orb.angle) * outerRadius;
@@ -198,18 +198,24 @@
                 const pulse = 0.75 + Math.sin(globalTime * 2 + orb.baseRadius) * 0.25;
                 const gradient = ctx.createRadialGradient(orb.x, orb.y, 0, orb.x, orb.y, orb.radius * 4);
                 gradient.addColorStop(0, `rgba(${orb.color}, ${pulse})`);
-                gradient.addColorStop(0.4, `rgba(${orb.color}, ${pulse * 0.2})`);
+                gradient.addColorStop(0.4, `rgba(${orb.color}, ${pulse * 0.25})`);
                 gradient.addColorStop(1, `rgba(${orb.color}, 0)`);
 
                 ctx.beginPath();
-ctx.arc(orb.x, orb.y, orb.radius * 4, 0, Math.PI * 2);
-ctx.fillStyle = gradient;
-ctx.fill();
-ctx.beginPath();
-ctx.arc(orb.x, orb.y, orb.radius * 0.35, 0, Math.PI * 2);
-ctx.fillStyle = rgba(255, 255, 255, ${pulse * 0.95});
-ctx.fill();
-});
-requestAnimationFrame(animate);
-}
-animate();
+                ctx.arc(orb.x, orb.y, orb.radius * 4, 0, Math.PI * 2);
+                ctx.fillStyle = gradient;
+                ctx.fill();
+
+                ctx.beginPath();
+                ctx.arc(orb.x, orb.y, orb.radius * 0.35, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255, 255, 255, ${pulse * 0.95})`;
+                ctx.fill();
+            });
+
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+    </script>
+</body>
+</html>
