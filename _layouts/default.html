@@ -93,8 +93,11 @@
                             targetY = mouse.y + Math.sin(orb.angle) * size;
                             break;
                         case 'square':
-                            targetX = (mouse.x - 90) + size * (Math.cos(orb.angle) - 0.08 * Math.cos(3 * orb.angle));
-                            targetY = mouse.y + size * (Math.sin(orb.angle) + 0.08 * Math.sin(3 * orb.angle));
+                            // Algoritmo de perfilado de bordes rectos para el Cuadrado
+                            const cosS = Math.cos(orb.angle);
+                            const sinS = Math.sin(orb.angle);
+                            targetX = (mouse.x - 90) + size * Math.sign(cosS) * Math.pow(Math.abs(cosS), 0.3);
+                            targetY = mouse.y + size * Math.sign(sinS) * Math.pow(Math.abs(sinS), 0.3);
                             break;
                         case 'cross1':
                             const osc1 = Math.sin(orb.angle) * size;
@@ -106,9 +109,10 @@
                             break;
                         case 'outer1':
                         case 'outer2':
+                            // Aceleramos la velocidad del anillo periférico
                             orb.angle -= 0.04;
-                            targetX = mouse.x + Math.cos(orb.angle * 0.3) * 160;
-                            targetY = mouse.y + Math.sin(orb.angle * 0.3) * 160;
+                            targetX = mouse.x + Math.cos(orb.angle * 1.2) * 160;
+                            targetY = mouse.y + Math.sin(orb.angle * 1.2) * 160;
                             break;
                     }
                 }
