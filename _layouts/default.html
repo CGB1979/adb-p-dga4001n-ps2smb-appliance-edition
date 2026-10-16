@@ -86,26 +86,26 @@
                         case 'triangle':
                             const triAngle = orb.angle * 1.5;
                             targetX = mouse.x + size * (Math.sin(triAngle) - 0.2 * Math.sin(2 * triAngle));
-                            targetY = (mouse.y - 90) + size * (Math.cos(triAngle) + 0.3 * Math.cos(2 * triAngle)) * -1;
+                            targetY = (mouse.y - 60) + size * (Math.cos(triAngle) + 0.3 * Math.cos(2 * triAngle)) * -1;
                             break;
                         case 'circle':
-                            targetX = (mouse.x + 90) + Math.cos(orb.angle) * size;
+                            targetX = (mouse.x + 60) + Math.cos(orb.angle) * size;
                             targetY = mouse.y + Math.sin(orb.angle) * size;
                             break;
                         case 'square':
                             // Algoritmo de perfilado de bordes rectos para el Cuadrado
                             const cosS = Math.cos(orb.angle);
                             const sinS = Math.sin(orb.angle);
-                            targetX = (mouse.x - 90) + size * Math.sign(cosS) * Math.pow(Math.abs(cosS), 0.3);
+                            targetX = (mouse.x - 60) + size * Math.sign(cosS) * Math.pow(Math.abs(cosS), 0.3);
                             targetY = mouse.y + size * Math.sign(sinS) * Math.pow(Math.abs(sinS), 0.3);
                             break;
                         case 'cross1':
                             const osc1 = Math.sin(orb.angle) * size;
-                            targetX = mouse.x + osc1; targetY = (mouse.y + 90) + osc1;
+                            targetX = mouse.x + osc1; targetY = (mouse.y + 60) + osc1;
                             break;
                         case 'cross2':
                             const osc2 = Math.sin(orb.angle) * size;
-                            targetX = mouse.x - osc2; targetY = (mouse.y + 90) + osc2;
+                            targetX = mouse.x - osc2; targetY = (mouse.y + 60) + osc2;
                             break;
                         case 'outer1':
                         case 'outer2':
