@@ -13,26 +13,38 @@
             color: #ffffff !important;
             margin: 0;
         }
-        /* Forzamos a que todo el contenedor de Markdown sea transparente para ver el fondo */
+        /* Faint CRT scanline overlay (Efecto de líneas de TV vieja como POPSLoader) */
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 60;
+            opacity: 0.08;
+            background: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.15) 0 1px, transparent 1px 3px);
+        }
+        /* Contenedor transparente para que resalten las esferas de fondo */
         .container-lg {
-            background: rgba(12, 12, 12, 0.82) !important;
+            background: rgba(12, 12, 12, 0.85) !important;
             border: 1px solid rgba(255, 255, 255, 0.1) !important;
-            border-radius: 8px;
+            border-radius: 4px;
             padding: 30px !important;
             margin-top: 40px !important;
             margin-bottom: 40px !important;
             position: relative;
-            z-index: 2; /* Por encima del canvas */
-            box-shadow: 0 10px 30px rgba(0,0,0,0.9);
+            z-index: 2; /* Por encima de las órbitas */
+            box-shadow: 0 10px 40px rgba(0,0,0,0.95);
         }
-        /* Ajuste de colores de títulos estilo PS2 */
-        h1, h2, h3 { color: #00b4ff !important; border-bottom: 1px solid rgba(255,255,255,0.1) !important; }
-        a { color: #00ffc8 !important; }
-        code { background-color: #151515 !important; color: #ff0096 !important; }
-        .markdown-body table th { background-color: #1a1a1a !important; }
-        .markdown-body table tr { background-color: #090909 !important; }
+        /* Ajuste de colores de la documentación estilo PS2 */
+        h1, h2, h3 { color: #38bdf8 !important; border-bottom: 1px solid rgba(145, 190, 255, 0.15) !important; }
+        a { color: #7dd3fc !important; text-decoration: none; }
+        a:hover { color: #ffffff !important; text-shadow: 0 0 8px rgba(125, 211, 252, 0.5) !important; }
+        code { background-color: #0c1630 !important; color: #ffd79e !important; border: 1px solid rgba(145, 190, 255, 0.2) !important; }
+        .markdown-body table th { background-color: #1a2c5a !important; color: #ffffff !important; }
+        .markdown-body table tr { background-color: #0c1630 !important; }
+        .markdown-body table tr:nth-child(even) { background-color: #142245 !important; }
 
-        /* El Canvas interactivo totalmente transparente de fondo */
+        /* El Canvas interactivo ocupando el fondo completo */
         canvas {
             position: fixed;
             top: 0;
@@ -44,10 +56,10 @@
 </head>
 <body>
 
-    <!-- El lienzo de las 7 esferas orgánicas -->
+    <!-- El lienzo de las 7 esferas auténticas de la consola -->
     <canvas id="ps2Canvas"></canvas>
 
-    <!-- La inyección automática de tu contenido de GitHub Pages -->
+    <!-- Inyección automática del contenido de tu README.md -->
     <div class="container-lg px-3 my-5 markdown-body">
         {{ content }}
     </div>
@@ -78,40 +90,40 @@
             }, 400);
         });
 
-                // Tus 7 microesferas calibradas con el DOBLE de retraso (valores baseEase reducidos a la mitad)
+        // CALIBRACIÓN AUTÉNTICA DE LAS 7 ORBS (Colores oficiales y Doble Retraso)
         const orbs = [
-            { id: 1, x: mouse.x, y: mouse.y, radius: 6, color: 'rgba(0, 180, 255,', baseEase: 0.06, angle: 0, orbitSpeed: 0.02, orbitRadius: 35, pulseOffset: 0 },
-            { id: 2, x: mouse.x, y: mouse.y, radius: 5, color: 'rgba(0, 255, 200,', baseEase: 0.045, angle: 1.5, orbitSpeed: -0.025, orbitRadius: 55, pulseOffset: 1 },
-            { id: 3, x: mouse.x, y: mouse.y, radius: 5, color: 'rgba(150, 0, 255,', baseEase: 0.035, angle: 3, orbitSpeed: 0.015, orbitRadius: 75, pulseOffset: 2 },
-            { id: 4, x: mouse.x, y: mouse.y, radius: 4, color: 'rgba(255, 255, 255,', baseEase: 0.025, angle: 4.5, orbitSpeed: -0.018, orbitRadius: 95, pulseOffset: 3 },
-            { id: 5, x: mouse.x, y: mouse.y, radius: 4, color: 'rgba(0, 120, 255,', baseEase: 0.02, angle: 2, orbitSpeed: 0.022, orbitRadius: 115, pulseOffset: 4 },
-            { id: 6, x: mouse.x, y: mouse.y, radius: 3, color: 'rgba(255, 0, 150,', baseEase: 0.015, angle: 5.5, orbitSpeed: -0.012, orbitRadius: 130, pulseOffset: 5 },
-            { id: 7, x: mouse.x, y: mouse.y, radius: 3, color: 'rgba(0, 255, 100,', baseEase: 0.01, angle: 0.5, orbitSpeed: 0.017, orbitRadius: 150, pulseOffset: 6 }
+            { id: 1, x: mouse.x, y: mouse.y, radius: 6, color: '0, 180, 255',  baseEase: 0.06,  angle: 0,   orbitSpeed: 0.02,  orbitRadius: 35,  pulseOffset: 0 },   // Lighter Blue
+            { id: 2, x: mouse.x, y: mouse.y, radius: 5, color: '45, 212, 191', baseEase: 0.045, angle: 1.5, orbitSpeed: -0.025, orbitRadius: 55,  pulseOffset: 1 },   // Triángulo Verde
+            { id: 3, x: mouse.x, y: mouse.y, radius: 5, color: '96, 165, 250', baseEase: 0.035, angle: 3,   orbitSpeed: 0.015, orbitRadius: 75,  pulseOffset: 2 },   // Equis Azul
+            { id: 4, x: mouse.x, y: mouse.y, radius: 4, color: '255, 255, 255', baseEase: 0.025, angle: 4.5, orbitSpeed: -0.018, orbitRadius: 95,  pulseOffset: 3 },   // Centro Blanco
+            { id: 5, x: mouse.x, y: mouse.y, radius: 4, color: '232, 121, 249', baseEase: 0.02,  angle: 2,   orbitSpeed: 0.022, orbitRadius: 115, pulseOffset: 4 },   // Cuadrado Rosa
+            { id: 6, x: mouse.x, y: mouse.y, radius: 3, color: '255, 94, 116',  baseEase: 0.015, angle: 5.5, orbitSpeed: -0.012, orbitRadius: 130, pulseOffset: 5 },   // Círculo Rojo
+            { id: 7, x: mouse.x, y: mouse.y, radius: 3, color: '56, 189, 248',  baseEase: 0.01,  angle: 0.5, orbitSpeed: 0.017, orbitRadius: 150, pulseOffset: 6 }    // Accent Cyan
         ];
 
         let globalTime = 0;
 
         function animate() {
+            // Ajustamos la densidad de la estela según el estado del cursor
             ctx.fillStyle = isMoving ? 'rgba(0, 0, 0, 0.14)' : 'rgba(0, 0, 0, 0.07)';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
             globalTime += 0.02;
 
+            // Ordenamiento dinámico en base a la distancia al mouse (Fila india caótica)
             orbs.forEach(orb => {
                 const dx = mouse.x - orb.x;
                 const dy = mouse.y - orb.y;
                 orb.distanceToMouse = Math.sqrt(dx * dx + dy * dy);
             });
-
             const sortedOrbs = [...orbs].sort((a, b) => a.distanceToMouse - b.distanceToMouse);
-
             sortedOrbs.forEach((orb, index) => {
                 orb.currentEase = orbs[index].baseEase;
             });
 
+            // Actualizar posiciones y dibujar
             orbs.forEach((orb) => {
                 orb.angle += orb.orbitSpeed;
-
                 let targetX, targetY;
 
                 if (isMoving) {
@@ -126,22 +138,25 @@
                 orb.x += (targetX - orb.x) * orb.currentEase;
                 orb.y += (targetY - orb.y) * orb.currentEase;
 
+                // Pulsación orgánica del brillo
                 const pulse = 0.7 + Math.sin(globalTime * 1.5 + orb.pulseOffset) * 0.3;
                 const currentRadius = orb.radius * (0.85 + Math.sin(globalTime + orb.pulseOffset) * 0.15);
 
-                const gradient = ctx.createRadialGradient(orb.x, orb.y, 0, orb.x, orb.y, currentRadius * 3.5);
-                gradient.addColorStop(0, orb.color + pulse + ')');
-                gradient.addColorStop(0.4, orb.color + (pulse * 0.3) + ')');
-                gradient.addColorStop(1, orb.color + ' 0)');
+                // Destello exterior (Glow)
+                const gradient = ctx.createRadialGradient(orb.x, orb.y, 0, orb.x, orb.y, currentRadius * 4);
+                gradient.addColorStop(0, `rgba(${orb.color}, ${pulse})`);
+                gradient.addColorStop(0.4, `rgba(${orb.color}, ${pulse * 0.25})`);
+                gradient.addColorStop(1, `rgba(${orb.color}, 0)`);
 
                 ctx.beginPath();
-                ctx.arc(orb.x, orb.y, currentRadius * 3.5, 0, Math.PI * 2);
+                ctx.arc(orb.x, orb.y, currentRadius * 4, 0, Math.PI * 2);
                 ctx.fillStyle = gradient;
                 ctx.fill();
 
+                // Núcleo central blanco brillante de la órbita
                 ctx.beginPath();
-                ctx.arc(orb.x, orb.y, currentRadius * 0.3, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(255, 255, 255, ${pulse * 0.9})`;
+                ctx.arc(orb.x, orb.y, currentRadius * 0.35, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255, 255, 255, ${pulse * 0.95})`;
                 ctx.fill();
             });
 
