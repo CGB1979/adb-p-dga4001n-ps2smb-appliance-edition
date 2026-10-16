@@ -90,33 +90,27 @@
             }, 400);
         });
 
-        // Configuración exacta de las 7 esferas con su rol geométrico
+        // CALIBRACIÓN AUTÉNTICA DE LAS 7 ORBS (Colores oficiales y Doble Retraso)
         const orbs = [
-            { type: 'triangle',  x: mouse.x, y: mouse.y, baseRadius: 5, color: '45, 212, 191',  baseEase: 0.06,  angle: 0 }, // ▲ Verde Turquesa
-            { type: 'circle',    x: mouse.x, y: mouse.y, baseRadius: 5, color: '255, 94, 116',  baseEase: 0.045, angle: 0 }, // ● Rojo/Fucsia
-            { type: 'cross1',    x: mouse.x, y: mouse.y, baseRadius: 5, color: '96, 165, 250',  baseEase: 0.035, angle: 0 }, // ✖ Azul Claro 1
-            { type: 'cross2',    x: mouse.x, y: mouse.y, baseRadius: 5, color: '96, 165, 250',  baseEase: 0.025, angle: 0 }, // ✖ Azul Claro 2
-            { type: 'square',    x: mouse.x, y: mouse.y, baseRadius: 5, color: '232, 121, 249', baseEase: 0.02,  angle: 0 }, // ■ Rosa/Violeta
-            { type: 'outer1',    x: mouse.x, y: mouse.y, baseRadius: 4, color: '255, 255, 255', baseEase: 0.015, angle: 0 }, // Centro Blanco (Anillo)
-            { type: 'outer2',    x: mouse.x, y: mouse.y, baseRadius: 4, color: '56, 189, 248',  baseEase: 0.01,  angle: Math.PI } // Accent Cyan (Anillo)
+            { id: 1, x: mouse.x, y: mouse.y, radius: 6, color: '0, 180, 255',  baseEase: 0.06,  angle: 0,   orbitSpeed: 0.02,  orbitRadius: 15,  pulseOffset: 0 },   // Lighter Blue
+            { id: 2, x: mouse.x, y: mouse.y, radius: 5, color: '45, 212, 191', baseEase: 0.045, angle: 1.5, orbitSpeed: -0.025, orbitRadius: 25,  pulseOffset: 1 },   // Triángulo Verde
+            { id: 3, x: mouse.x, y: mouse.y, radius: 5, color: '96, 165, 250', baseEase: 0.035, angle: 3,   orbitSpeed: 0.015, orbitRadius: 35,  pulseOffset: 2 },   // Equis Azul
+            { id: 4, x: mouse.x, y: mouse.y, radius: 4, color: '255, 255, 255', baseEase: 0.025, angle: 4.5, orbitSpeed: -0.018, orbitRadius: 45,  pulseOffset: 3 },   // Centro Blanco
+            { id: 5, x: mouse.x, y: mouse.y, radius: 4, color: '232, 121, 249', baseEase: 0.02,  angle: 2,   orbitSpeed: 0.022, orbitRadius: 55, pulseOffset: 4 },   // Cuadrado Rosa
+            { id: 6, x: mouse.x, y: mouse.y, radius: 3, color: '255, 94, 116',  baseEase: 0.015, angle: 5.5, orbitSpeed: -0.012, orbitRadius: 70, pulseOffset: 5 },   // Círculo Rojo
+            { id: 7, x: mouse.x, y: mouse.y, radius: 3, color: '56, 189, 248',  baseEase: 0.01,  angle: 0.5, orbitSpeed: 0.017, orbitRadius: 90, pulseOffset: 6 }    // Accent Cyan
         ];
 
         let globalTime = 0;
 
         function animate() {
-            // Estela larga en reposo para que las figuras se dibujen perfectamente en el aire
-            ctx.fillStyle = isMoving ? 'rgba(0, 0, 0, 0.14)' : 'rgba(0, 0, 0, 0.05)';
+            // Ajustamos la densidad de la estela según el estado del cursor
+            ctx.fillStyle = isMoving ? 'rgba(0, 0, 0, 0.14)' : 'rgba(0, 0, 0, 0.07)';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
             globalTime += 0.02;
 
-            // --- ROTACIÓN DINÁMICA DE TAMAÑOS ---
-            orbs.forEach((orb, i) => {
-                const sizePulse = Math.sin(globalTime * 0.8 + i * 1.5);
-                orb.radius = orb.baseRadius * (1.1 + sizePulse * 0.5);
-            });
-
-            // Ordenamiento por cercanía al mouse en seguimiento
+            // Ordenamiento dinámico en base a la distancia al mouse (Fila india caótica)
             orbs.forEach(orb => {
                 const dx = mouse.x - orb.x;
                 const dy = mouse.y - orb.y;
@@ -127,87 +121,41 @@
                 orb.currentEase = orbs[index].baseEase;
             });
 
-            // --- MOTOR DE FÍSICA Y GEOMETRÍA ---
+            // Actualizar posiciones y dibujar
             orbs.forEach((orb) => {
+                orb.angle += orb.orbitSpeed;
                 let targetX, targetY;
 
                 if (isMoving) {
-                    // MODO SEGUIMIENTO: Fila india fluida directo al cursor
-                    orb.angle += 0.02;
                     targetX = mouse.x + Math.sin(orb.angle) * 3;
                     targetY = mouse.y + Math.cos(orb.angle) * 3;
                 } else {
-                    // MODO REPOSO: Comportamiento geométrico según control de joystick
-                    const size = 30; // Tamaño del dibujo de cada botón
-                    orb.angle += 0.04; // Velocidad del dibujo interno
-
-                    switch (orb.type) {
-                        case 'triangle':
-                            const triCenterX = mouse.x;
-                            const triCenterY = mouse.y - 70;
-                            const triAngle = orb.angle * 1.5;
-                            targetX = triCenterX + size * (Math.sin(triAngle) - 0.2 * Math.sin(2 * triAngle));
-                            targetY = triCenterY + size * (Math.cos(triAngle) + 0.3 * Math.cos(2 * triAngle)) * -1;
-                            break;
-
-                        case 'circle':
-                            const cirCenterX = mouse.x + 70;
-                            const cirCenterY = mouse.y;
-                            targetX = cirCenterX + Math.cos(orb.angle) * (size * 0.9);
-                            targetY = cirCenterY + Math.sin(orb.angle) * (size * 0.9);
-                            break;
-
-                        case 'square':
-                            const sqCenterX = mouse.x - 70;
-                            const sqCenterY = mouse.y;
-                            targetX = sqCenterX + size * (Math.cos(orb.angle) - 0.08 * Math.cos(3 * orb.angle));
-                            targetY = sqCenterY + size * (Math.sin(orb.angle) + 0.08 * Math.sin(3 * orb.angle));
-                            break;
-
-                        case 'cross1':
-                            const crossCenterX = mouse.x;
-                            const crossCenterY = mouse.y + 70;
-                            const linearOsc1 = Math.sin(orb.angle) * size;
-                            targetX = crossCenterX + linearOsc1;
-                            targetY = crossCenterY + linearOsc1;
-                            break;
-
-                        case 'cross2':
-                            const crossCenterX2 = mouse.x;
-                            const crossCenterY2 = mouse.y + 70;
-                            const linearOsc2 = Math.sin(orb.angle) * size;
-                            targetX = crossCenterX2 - linearOsc2;
-                            targetY = crossCenterY2 + linearOsc2;
-                            break;
-
-                        case 'outer1':
-                        case 'outer2':
-                            orb.angle += 0.01;
-                            const outerRadius = 140;
-                            targetX = mouse.x + Math.cos(orb.angle) * outerRadius;
-                            targetY = mouse.y + Math.sin(orb.angle) * outerRadius;
-                            break;
-                    }
+                    const dynamicRadius = orb.orbitRadius + Math.sin(globalTime * 0.5 + orb.id) * 20;
+                    targetX = mouse.x + Math.cos(orb.angle) * dynamicRadius;
+                    targetY = mouse.y + Math.sin(orb.angle * 1.1) * dynamicRadius;
                 }
 
-                // Aplicación del suavizado LERP
                 orb.x += (targetX - orb.x) * orb.currentEase;
                 orb.y += (targetY - orb.y) * orb.currentEase;
 
-                // Renderizado orgánico de luces y brillos individuales
-                const pulse = 0.75 + Math.sin(globalTime * 2 + orb.baseRadius) * 0.25;
-                const gradient = ctx.createRadialGradient(orb.x, orb.y, 0, orb.x, orb.y, orb.radius * 4);
+                // Pulsación orgánica del brillo
+                const pulse = 0.7 + Math.sin(globalTime * 1.5 + orb.pulseOffset) * 0.3;
+                const currentRadius = orb.radius * (0.85 + Math.sin(globalTime + orb.pulseOffset) * 0.15);
+
+                // Destello exterior (Glow)
+                const gradient = ctx.createRadialGradient(orb.x, orb.y, 0, orb.x, orb.y, currentRadius * 2);
                 gradient.addColorStop(0, `rgba(${orb.color}, ${pulse})`);
                 gradient.addColorStop(0.4, `rgba(${orb.color}, ${pulse * 0.25})`);
                 gradient.addColorStop(1, `rgba(${orb.color}, 0)`);
 
                 ctx.beginPath();
-                ctx.arc(orb.x, orb.y, orb.radius * 4, 0, Math.PI * 2);
+                ctx.arc(orb.x, orb.y, currentRadius * 2, 0, Math.PI * 2);
                 ctx.fillStyle = gradient;
                 ctx.fill();
 
+                // Núcleo central blanco brillante de la órbita
                 ctx.beginPath();
-                ctx.arc(orb.x, orb.y, orb.radius * 0.35, 0, Math.PI * 2);
+                ctx.arc(orb.x, orb.y, currentRadius * 0.15, 0, Math.PI * 2);
                 ctx.fillStyle = `rgba(255, 255, 255, ${pulse * 0.95})`;
                 ctx.fill();
             });
