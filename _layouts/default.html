@@ -25,16 +25,14 @@
         .markdown-body table tr:nth-child(even) { background-color: #142245 !important; }
         canvas { position: fixed; top: 0; left: 0; pointer-events: none; z-index: 1; }
                 /* /// desde aca el codigo brillo Banner */
-        .markdown-body pre:has(code) {
-            position: relative;
-            overflow: hidden;
-            background: rgba(12, 22, 48, 0.9) !important;
-            border: 1px solid rgba(145, 190, 255, 0.22) !important;
-            box-shadow: 0 0 20px rgba(56, 189, 248, 0.15);
+        .markdown-body p:has(img) {
+            position: relative !important;
+            display: inline-block;
+            overflow: hidden !important;
         }
 
-        /* El haz de luz animado que cruza por encima de las letras ASCII */
-        .markdown-body pre:has(code)::before {
+        /* El haz de luz animado que cruza por encima de la imagen */
+        .markdown-body p:has(img)::before {
             content: "";
             position: absolute;
             top: 0;
@@ -44,21 +42,21 @@
             background: linear-gradient(
                 90deg,
                 transparent,
-                rgba(56, 189, 248, 0.0) 10%,
-                rgba(255, 255, 255, 0.22) 50%,
-                rgba(56, 189, 248, 0.0) 90%,
+                rgba(255, 255, 255, 0) 10%,
+                rgba(255, 255, 255, 0.45) 50%, /* Luz intensa */
+                rgba(255, 255, 255, 0) 90%,
                 transparent
             );
-            transform: skewX(-25deg);
-            animation: shineSweep 4.5s infinite ease-in-out;
+            transform: skewX(-30deg); /* Haz inclinado estilo PS2 */
+            animation: shineSweep 5s infinite ease-in-out;
             pointer-events: none;
+            z-index: 10;
         }
 
-        /* Animación del movimiento de izquierda a derecha */
         @keyframes shineSweep {
             0% { left: -150%; }
             30% { left: 150%; }
-            100% { left: 150%; }
+            100% { left: 150%; } /* Pausa antes del siguiente barrido */
         }
         /* //// Aca finaliza el codigo brillo banner */
 
