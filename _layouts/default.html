@@ -24,11 +24,19 @@
         .markdown-body table tr { background-color: #0c1630 !important; }
         .markdown-body table tr:nth-child(even) { background-color: #142245 !important; }
         canvas { position: fixed; top: 0; left: 0; pointer-events: none; z-index: 1; }
-                /* /// desde aca el codigo brillo Banner */
+                        /* /// desde aca el codigo brillo Banner */
         .markdown-body p:has(img) {
             position: relative !important;
-            display: inline-block;
+            display: block !important; /* Cambiado a block para permitir el centrado */
+            text-align: center !important; /* Centra la imagen adentro del contenedor */
+            margin-left: auto !important;
+            margin-right: auto !important;
             overflow: hidden !important;
+        }
+
+        /* Envoltura interna para que el brillo se limite solo al ancho de la imagen centrada */
+        .markdown-body p:has(img) img {
+            display: inline-block !important;
         }
 
         /* El haz de luz animado que cruza por encima de la imagen */
@@ -43,11 +51,11 @@
                 90deg,
                 transparent,
                 rgba(255, 255, 255, 0) 10%,
-                rgba(255, 255, 255, 0.45) 50%, /* Luz intensa */
+                rgba(255, 255, 255, 0.45) 50%,
                 rgba(255, 255, 255, 0) 90%,
                 transparent
             );
-            transform: skewX(-30deg); /* Haz inclinado estilo PS2 */
+            transform: skewX(-30deg);
             animation: shineSweep 5s infinite ease-in-out;
             pointer-events: none;
             z-index: 10;
@@ -56,10 +64,9 @@
         @keyframes shineSweep {
             0% { left: -150%; }
             30% { left: 150%; }
-            100% { left: 150%; } /* Pausa antes del siguiente barrido */
+            100% { left: 150%; }
         }
         /* //// Aca finaliza el codigo brillo banner */
-
     </style>
 </head>
 <body>
