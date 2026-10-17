@@ -70,7 +70,7 @@ Configure OPL con los siguientes parámetros:
 - Archivo:
 
 ```
-ADB-PDG-A4001N-PS2-SMB-Appliance-Edition-v1.0-cfe.bin (o builds posteriores)
+ADB-PDG-A4001N-PS2-SMB-Appliance-Edition-v1.2-cfe.bin (o builds posteriores)
 ```
 
 ---
@@ -108,7 +108,7 @@ No es necesario configurar servidores DNS.
 7. Seleccione el archivo:
 
 ```
-ADB-PDG-A4001N-PS2-SMB-Appliance-Edition-v1.0-cfe.bin (o versiones posteriores)
+ADB-PDG-A4001N-PS2-SMB-Appliance-Edition-v1.2-cfe.bin (o versiones posteriores)
 ```
 
 8. Clique el boton **Update Software** o similar.
@@ -148,7 +148,7 @@ Una vez instalado el firmware puede volver a configurar la interfaz Ethernet del
 
 # Estado del proyecto
 
-**Versión 1.0**
+**Versión 1.2**
 
 Primera versión estable del firmware.
 
