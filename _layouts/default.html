@@ -131,8 +131,10 @@
                             targetX = mouse.x + size * (Math.sin(triAngle) - 0.2 * Math.sin(2 * triAngle));
                             targetY = (mouse.y - 60) + size * (Math.cos(triAngle) + 0.3 * Math.cos(2 * triAngle)) * -1;
                             break;
-                        case 'circle':
-                            targetX = (mouse.x + 60) + Math.cos(orb.angle) * size;
+                       case 'circle':
+                            // Forzamos a que la esfera del círculo gire al doble de velocidad
+                            orb.angle += 0.05; 
+                            targetX = (mouse.x + 90) + Math.cos(orb.angle) * size;
                             targetY = mouse.y + Math.sin(orb.angle) * size;
                             break;
                         case 'square':
