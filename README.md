@@ -121,7 +121,10 @@ Al finalizar, el router se reiniciará automáticamente.
 
 ## Después del flasheo
 
-Una vez instalado el firmware puede volver a configurar la interfaz Ethernet del PC para obtener la dirección IP automáticamente (DHCP) o restaurar la configuración de red que utilizaba anteriormente.
+Una vez instalado el firmware, ya puede volver a configurar la interfaz Ethernet de su PC para **obtener la dirección IP automáticamente (DHCP)** o restaurar su configuración de red habitual. 
+
+A partir de este momento, **debe desconectar el router de la PC**, ya que esa conexión se requería únicamente para el proceso de flasheo. Para el uso cotidiano, el sistema operará de manera autónoma y solo necesitará la **conexión directa mediante cable de red entre su PlayStation 2 y el router** (con el dispositivo USB de almacenamiento colocado).
+
 
 ---
 
@@ -150,14 +153,14 @@ Una vez instalado el firmware puede volver a configurar la interfaz Ethernet del
 
 **Versión 1.2**
 
-Primera versión estable del firmware.
+Versión estable del firmware.
 
 Características verificadas:
 
 - Arranque correcto.
 - Servidor Samba funcionando correctamente.
 - Automontaje de dispositivos USB.
-- Intercambio de dispositivos USB en caliente (Hot Swap) pulsando el boton trasero WPS (se reasigno WPS a extraccion segura).
+- **Intercambio de dispositivos USB en caliente (Hot Swap):** Permite cambiar de pendrive o disco con el router encendido. Al pulsar el botón trasero **WPS**, el sistema ejecuta una **extracción segura** automatizada para proteger los datos de cualquier corrupción antes del cambio.
 - Compatibilidad con FAT32, exFAT, NTFS
 - Detección correcta desde Open PS2 Loader.
 - Carga de juegos mediante SMB.
