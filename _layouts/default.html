@@ -101,7 +101,7 @@
         ];
 
         let globalTime = 0;
-        function animate() {
+                function animate() {
             ctx.fillStyle = isMoving ? 'rgba(0, 0, 0, 0.14)' : 'rgba(0, 0, 0, 0.02)';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             globalTime += 0.02;
@@ -131,14 +131,12 @@
                             targetX = mouse.x + size * (Math.sin(triAngle) - 0.2 * Math.sin(2 * triAngle));
                             targetY = (mouse.y - 60) + size * (Math.cos(triAngle) + 0.3 * Math.cos(2 * triAngle)) * -1;
                             break;
-                       case 'circle':
-                            // Forzamos a que la esfera del círculo gire al doble de velocidad
-                            orb.angle += 0.05; 
-                            targetX = (mouse.x + 90) + Math.cos(orb.angle) * size;
-                            targetY = mouse.y + Math.sin(orb.angle) * size;
+                        case 'circle':
+                            // Multiplicamos por 2 el ángulo adentro de cos y sin para duplicar la velocidad de giro sin deformar el tamaño
+                            targetX = (mouse.x + 60) + Math.cos(orb.angle * 2) * size;
+                            targetY = mouse.y + Math.sin(orb.angle * 2) * size;
                             break;
                         case 'square':
-                            // Algoritmo de perfilado de bordes rectos para el Cuadrado
                             const cosS = Math.cos(orb.angle);
                             const sinS = Math.sin(orb.angle);
                             targetX = (mouse.x - 60) + size * Math.sign(cosS) * Math.pow(Math.abs(cosS), 0.3);
@@ -154,10 +152,8 @@
                             break;
                         case 'outer1':
                         case 'outer2':
-                            // Aceleramos la velocidad del anillo periférico
-                            orb.angle -= 0.04;
-                            targetX = mouse.x + Math.cos(orb.angle * 1.2) * 160;
-                            targetY = mouse.y + Math.sin(orb.angle * 1.2) * 160;
+                            targetX = mouse.x + Math.cos(orb.angle * 1.2) * 130;
+                            targetY = mouse.y + Math.sin(orb.angle * 1.2) * 130;
                             break;
                     }
                 }
