@@ -148,14 +148,14 @@
                             break;
                         case 'cross2':
                             const osc2 = Math.sin(orb.angle) * size;
-                            targetX = mouse.x - osc2; targetY = (mouse.y + 90) + osc2;
+                            targetX = mouse.x - osc2; targetY = (mouse.y + 60) + osc2;
                             break;
                         case 'outer1':
                         case 'outer2':
                             // Aceleramos la velocidad del anillo periférico
                             orb.angle -= 0.04;
-                            targetX = mouse.x + Math.cos(orb.angle * 1.2) * 160;
-                            targetY = mouse.y + Math.sin(orb.angle * 1.2) * 160;
+                            targetX = mouse.x + Math.cos(orb.angle * 2) * 140;
+                            targetY = mouse.y + Math.sin(orb.angle * 2) * 140;
                             break;
                     }
                 }
