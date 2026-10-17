@@ -16,7 +16,7 @@ Su objetivo es ofrecer una solución simple, ligera y estable para cargar juegos
 - Servidor Samba 3.6 integrado
 - Compatible con Open PS2 Loader (OPL)
 - Protocolo SMB1 / NT1
-- Compatibilidad con dispositivos USB FAT32 y exFAT
+- Compatibilidad con dispositivos USB FAT32, exFAT y NTFS
 - Automontaje del almacenamiento USB en `/mnt/usb`
 - Recurso compartido SMB `PS2SMB`
 - Sin usuario ni contraseña
@@ -39,8 +39,7 @@ Se eliminaron funciones y componentes innecesarios para reducir el consumo de me
 - Samba 3.6
 - Soporte USB Storage
 - Automontaje mediante Hotplug
-- Soporte FAT32
-- Soporte exFAT
+- Soporte FAT32, exFAT, NTFS
 - Servidor NetBIOS (nmbd)
 - Compartición SMB optimizada para OPL
 
@@ -143,6 +142,7 @@ Una vez instalado el firmware puede volver a configurar la interfaz Ethernet del
 
 - FAT32
 - exFAT
+- NTFS
 
 ---
 
@@ -157,9 +157,8 @@ Características verificadas:
 - Arranque correcto.
 - Servidor Samba funcionando correctamente.
 - Automontaje de dispositivos USB.
-- Intercambio de dispositivos USB en caliente (Hot Swap).
-- Compatibilidad con FAT32.
-- Compatibilidad con exFAT.
+- Intercambio de dispositivos USB en caliente (Hot Swap) pulsando el boton trasero WPS (se reasigno WPS a extraccion segura).
+- Compatibilidad con FAT32, exFAT, NTFS
 - Detección correcta desde Open PS2 Loader.
 - Carga de juegos mediante SMB.
 - Consumo de memoria estable durante el funcionamiento.
