@@ -151,17 +151,9 @@
                             targetX = mouse.x - osc2; targetY = (mouse.y + 60) + osc2;
                             break;
                         case 'outer1':
-                            // Esfera Blanca: Gira en sentido contrario a las agujas del reloj, radio 150
-                            orb.angle -= 0.04;
-                            targetX = mouse.x + Math.cos(orb.angle * 2.0) * 175;
-                            targetY = mouse.y + Math.sin(orb.angle * 2.0) * 175;
-                            break;
-
                         case 'outer2':
-                            // Esfera Cyan: Gira en sentido horario (espejada) y un carril más cerrada (radio 135)
-                            orb.angle += 0.04; // Cambiado a += para que vaya al revés
-                            targetX = mouse.x + Math.cos(orb.angle * 2.0) * 155; // Carril interno
-                            targetY = mouse.y + Math.sin(orb.angle * 2.0) * 155;
+                            targetX = mouse.x + Math.cos(orb.angle * 2.0) * 170; // Ajustado a proporción de 60px
+                            targetY = mouse.y + Math.sin(orb.angle * 2.5) * 170;
                             break;
                     }
                 }
